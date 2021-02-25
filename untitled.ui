@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1066</width>
+    <height>707</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,1">
+    <item row="2" column="1">
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="title">
+       <string>ui.log</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPlainTextEdit" name="plainTextEdit_log">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="1" rowspan="2">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>ui.sourcetext</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPlainTextEdit" name="plainTextEdit_source">
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAsNeeded</enum>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>ui.file</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>ui.file.coding</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="comboBox">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
+          <string>ui,file.extm3u</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0" rowspan="2">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>ui.playlist</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>ui.playlist.add.file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>ui.playlist.add.folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="pushButton_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>ui.playlist.remove</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" rowspan="2" colspan="3">
+        <widget class="QListWidget" name="listWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="dragEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::DragDrop</enum>
+         </property>
+         <property name="defaultDropAction">
+          <enum>Qt::MoveAction</enum>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::ExtendedSelection</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1066</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuaa">
+    <property name="title">
+     <string>ui.mbar.file</string>
+    </property>
+    <addaction name="actionui_mbar_file_new"/>
+    <addaction name="actionui_mbar_file_open"/>
+    <addaction name="actionui_mbar_file_reload"/>
+    <addaction name="separator"/>
+    <addaction name="actionui_mbar_file_save"/>
+    <addaction name="actionui_mbar_file_saveto"/>
+    <addaction name="separator"/>
+    <addaction name="actionui_mbar_file_close"/>
+    <addaction name="actionui_mbar_file_quit"/>
+   </widget>
+   <widget class="QMenu" name="menuui_mbar_help">
+    <property name="title">
+     <string>ui.mbar.help</string>
+    </property>
+    <addaction name="actionui_mbar_help_about"/>
+   </widget>
+   <addaction name="menuaa"/>
+   <addaction name="menuui_mbar_help"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionui_mbar_file_open">
+   <property name="text">
+    <string>ui.mbar.file.open</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_file_new">
+   <property name="text">
+    <string>ui.mbar.file.new</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_file_close">
+   <property name="text">
+    <string>ui.mbar.file.close</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_file_quit">
+   <property name="text">
+    <string>ui.mbar.file.quit</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_file_save">
+   <property name="text">
+    <string>ui.mbar.file.save</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_file_saveto">
+   <property name="text">
+    <string>ui.mbar.file.saveto</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_help_about">
+   <property name="text">
+    <string>ui.mbar.help.about</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_file_reload">
+   <property name="text">
+    <string>ui.mbar.file.reload</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionui_mbar_file_quit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>427</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>addfiles()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>82</x>
+     <y>676</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>addfolder()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>222</x>
+     <y>676</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rmedia()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>532</x>
+     <y>676</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>change_extm3u(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>381</x>
+     <y>61</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionui_mbar_file_open</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>loadfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionui_mbar_file_save</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionui_mbar_file_saveto</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveto()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionui_mbar_file_new</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>new()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionui_mbar_help_about</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openabout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionui_mbar_file_reload</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>reloadfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>532</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>loadfile()</slot>
+  <slot>addfiles()</slot>
+  <slot>addfolder()</slot>
+  <slot>importpl()</slot>
+  <slot>rmedia()</slot>
+  <slot>change_extm3u(int)</slot>
+  <slot>save()</slot>
+  <slot>saveto()</slot>
+  <slot>change_version(int)</slot>
+  <slot>new()</slot>
+  <slot>openabout()</slot>
+  <slot>reloadfile()</slot>
+ </slots>
+</ui>
