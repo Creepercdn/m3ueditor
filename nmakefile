@@ -1,0 +1,26 @@
+pyrcc = pyrcc5
+pyuic = pyuic5
+python = python
+lrelease = "C:\\Program Files\\Python38\\Lib\\site-packages\\qt5_applications\\Qt\\bin\\lrelease.exe"
+
+rccargs = -compress 12 -threshold 1
+uicargs =
+
+all: compilei18n res.py untitled.py aboutdiag.py
+
+clean:
+	del /F /S /Q res.py
+	del /F /S /Q *.qm
+	del /F /S /Q untitled.py
+	del /F /S /Q aboutdiag.py
+
+compilei18n:
+	$(python) compilei18n.py $(lrelease) "./i18n/"
+	move /Y i18n\untitled.*.qm ./
+
+res.py:
+	$(pyrcc) $(rccargs) -o res.py res.qrc
+
+untitled.py aboutdiag.py:
+	$(pyuic) $(uicargs) -o untitled.py untitled.ui
+	$(pyuic) $(uicargs) -o aboutdiag.py aboutdiag.ui
