@@ -14,3 +14,8 @@ Files tree:
 ├── untitled.ui Main Window form
 └── untitled.zh_CN.qt.ts # Translate file for zh_CN
 ```
+
+How to run:
+```
+python __main__.py
+```
