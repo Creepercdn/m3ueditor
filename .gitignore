@@ -175,6 +175,7 @@ ui_*.h
 Makefile*
 *build-*
 *.qm
+*.qt.qm
 *.prl
 
 # Qt unit tests
