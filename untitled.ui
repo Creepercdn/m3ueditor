@@ -160,7 +160,6 @@
     <addaction name="actionui_mbar_file_save"/>
     <addaction name="actionui_mbar_file_saveto"/>
     <addaction name="separator"/>
-    <addaction name="actionui_mbar_file_close"/>
     <addaction name="actionui_mbar_file_quit"/>
    </widget>
    <widget class="QMenu" name="menuui_mbar_help">
@@ -181,11 +180,6 @@
   <action name="actionui_mbar_file_new">
    <property name="text">
     <string>ui.mbar.file.new</string>
-   </property>
-  </action>
-  <action name="actionui_mbar_file_close">
-   <property name="text">
-    <string>ui.mbar.file.close</string>
    </property>
   </action>
   <action name="actionui_mbar_file_quit">
