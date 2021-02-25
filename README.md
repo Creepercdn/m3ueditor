@@ -1,7 +1,7 @@
 # m3ueditor
 An editor to edit simple M3U(8) playlist.
 
-Files tree:
+## Files tree:
 ```
 .
 ├── aboutdiag.ui # About Dialog form
@@ -15,7 +15,26 @@ Files tree:
 └── untitled.zh_CN.qt.ts # Translate file for zh_CN
 ```
 
-How to run:
+## How to compile files:
+nmake:
+```
+nmake -f nmakefile
+```
+clean:
+```
+nmake -f nmakefile clean
+```
+
+GNU make:
+```
+make
+```
+clean:
+```
+make clean
+```
+
+## How to run:
 ```
 python __main__.py
 ```
