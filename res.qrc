@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="lang">
-    <file>untitled.zh_CN.qm</file>
+    <file>untitled.zh_CN.qt.qm</file>
+    <file>untitled.en_US.qt.qm</file>
   </qresource>
 </RCC>
