@@ -2,6 +2,60 @@
 This is an entrance
 """
 
+"""
+Logging Notice:
+Task you want to perform                            |The best tool for the task
+                                                    |
+Display console output for ordinary usage of a      | print()
+command line script or program                      |
+                                                    |
+                                                    |
+Report events that occur during normal operation of | logging.info() (or logging.debug() for very detailed
+a program (e.g. for status monitoring or fault      | output for diagnostic purposes)
+investigation)                                      |
+                                                    |
+                                                    |
+Issue a warning regarding a particular runtime event| warnings.warn() in library code if the issue is
+                                                    | avoidable and the client application should be
+                                                    | modified to eliminate the warning
+
+                                                    | logging.warning() if there is nothing the client
+                                                    | application can do about the situation, but the event
+                                                    | should still be noted
+                                                    |
+                                                    |
+Report an error regarding a particular runtime event| Raise an exception
+                                                    |
+                                                    |
+Report suppression of an error without raising an   | logging.error(), logging.exception() or
+exception (e.g. error handler in a long-running     | logging.critical() as appropriate for the specific
+server process)                                     | error and application domain
+
+
+
+
+DEBUG
+
+Detailed information, typically of interest only when diagnosing problems.
+
+INFO
+
+Confirmation that things are working as expected.
+
+WARNING
+
+An indication that something unexpected happened, or indicative of some problem in the near future (e.g. ‘disk space low’). The software is still working as expected.
+
+ERROR
+
+Due to a more serious problem, the software has not been able to perform some function.
+
+CRITICAL
+
+A serious error, indicating that the program itself may be unable to continue running.
+
+"""
+
 from PyQt5 import QtWidgets, QtCore
 import sys
 import mainwindow
@@ -25,9 +79,13 @@ if __name__=="__main__":
     w.logger = logging.getLogger(__name__)
     w.logger.setLevel(logging.DEBUG) # You can change it
 
+    # if you do not want to logging
+    # Please uncomment the next line and comment addHandler
+    # w.logger.addHandler(logging.NullHandler())
+
     chandler = CallHandler()
     shandler = logging.StreamHandler(sys.stdout)
-
+    logging.NullHandler
     formatter = logging.Formatter('[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s')
     chandler.setFormatter(formatter)
     shandler.setFormatter(formatter)
