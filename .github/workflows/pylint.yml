@@ -1,0 +1,30 @@
+name: Pylint
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+        pip install pyqt5-tool qt5-tools qt5-applications pyqt5-plugins pyqt5
+        
+    - name: Build
+      run: |
+        python -c "print(__import__('os').path.join(__import__('site').getsitepackages()[1],'qt5_applications\\Qt\\bin\\lrelease.exe'))" > lreleasepath
+        set /p LRELEASE= <lreleasepath
+        nmake -f nmakefile /E
+        
+    - name: Analysing the code with pylint
+      run: |
+        for /r %i in (.) do pylint %i
