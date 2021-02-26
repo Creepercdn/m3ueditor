@@ -5,7 +5,7 @@ lrelease = "lrelease"
 rccargs = -compress 12 -threshold 1
 uicargs =
 
-all: res.py untitled.py aboutdiag.py
+all: i18n res.py untitled.py aboutdiag.py
 
 .PHONY : clean
 clean:
