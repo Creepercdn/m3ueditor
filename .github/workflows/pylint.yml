@@ -1,6 +1,5 @@
 name: Pylint
- studio
-on: [push]
+on: [push, pull_request, create]
 
 jobs:
   build:
@@ -29,5 +28,5 @@ jobs:
         
     - name: Analysing the code with pylint
       run: |
-        for /r %%i in (*.py) do pylint "%%i"
+        for /r %%i in (*.py) do pylint --fail-under=1 "%%i"
       shell: cmd
