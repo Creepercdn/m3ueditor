@@ -29,5 +29,5 @@ jobs:
         
     - name: Analysing the code with pylint
       run: |
-        for /r %i in (.) do pylint %i
+        for /r %%i in (*.py) do pylint "%%i"
       shell: cmd
