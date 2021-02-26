@@ -1,6 +1,7 @@
 pyrcc = pyrcc5
 pyuic = pyuic5
 lrelease = "lrelease"
+python = python
 
 rccargs = -compress 12 -threshold 1
 uicargs =
