@@ -25,7 +25,7 @@ clean:
 nmake -f nmakefile clean
 ```
 
-GNU make:
+GNU make: # May don't work
 ```
 make
 ```
