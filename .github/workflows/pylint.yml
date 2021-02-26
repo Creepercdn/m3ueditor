@@ -1,5 +1,5 @@
 name: Pylint
-
+ studio
 on: [push]
 
 jobs:
@@ -9,6 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: ilammy/msvc-dev-cmd@v1
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
@@ -21,9 +22,9 @@ jobs:
         
     - name: Build
       run: |
-        "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.28.29334\bin\Hostx64\x64\nmake.exe"
         python -c "print(__import__('os').path.join(__import__('site').getsitepackages()[1],'qt5_applications\\Qt\\bin\\lrelease.exe'))" > lreleasepath
         set /p LRELEASE= < lreleasepath
+        nmake -f nmakefile /E /D
       shell: cmd
         
     - name: Analysing the code with pylint
