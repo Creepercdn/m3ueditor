@@ -18,6 +18,9 @@ An editor to edit simple M3U(8) playlist.
 ```
 
 ## How to compile files:
+Need PyQt5 to run.
+Need PyQt5-tools to compile or delevop.
+
 nmake:
 ```
 nmake -f nmakefile
