@@ -24,7 +24,7 @@ jobs:
         "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
         python -c "print(__import__('os').path.join(__import__('site').getsitepackages()[1],'qt5_applications\\Qt\\bin\\lrelease.exe'))" > lreleasepath
         set /p LRELEASE= < lreleasepath
-        nmake -f nmakefile /E
+        nmake -f nmakefile /E /D
       shell: cmd
         
     - name: Analysing the code with pylint
