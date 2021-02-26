@@ -30,3 +30,4 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         for /r %i in (.) do pylint %i
+      shell: cmd
