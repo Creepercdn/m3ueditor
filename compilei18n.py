@@ -27,4 +27,4 @@ if __name__=="__main__":
     files = filter(lambda x: os.path.splitext(x)[-1]=='.ts', files)
 
     for i in files:
-        subprocess.run(f"{lrelease} {' '.join(options)} {os.path.abspath(os.path.join(workspace, i))}")
+        subprocess.run(f"{lrelease} {' '.join(options)} {os.path.abspath(os.path.join(workspace, i))}", check=True)

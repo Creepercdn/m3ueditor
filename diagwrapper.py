@@ -1,5 +1,6 @@
+from PyQt5 import QtWidgets
+
 import aboutdiag
-from PyQt5 import QtWidgets, QtCore
 
 
 class Wrapper(QtWidgets.QDialog, aboutdiag.Ui_Dialog):

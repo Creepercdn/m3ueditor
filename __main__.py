@@ -1,6 +1,13 @@
 """
 This is an entrance
 """
+import logging
+import sys
+
+from PyQt5 import QtCore, QtWidgets
+
+import mainwindow
+import res
 
 """
 Logging Notice:
@@ -56,13 +63,15 @@ A serious error, indicating that the program itself may be unable to continue ru
 
 """
 
-from PyQt5 import QtWidgets, QtCore
-import sys
-import mainwindow
-import res
-import logging
 
-class CallHandler(logging.Handler): # A handler to call a function to send log
+res.qInitResources()
+
+
+class CallHandler(logging.Handler):
+    """
+    A handler to call a function to send log
+    """
+
     def emit(self, record):
         try:
             msg = self.format(record)
@@ -71,13 +80,14 @@ class CallHandler(logging.Handler): # A handler to call a function to send log
         except Exception:
             self.handleError(record)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     print('Starting...')
     app = QtWidgets.QApplication(sys.argv)
     w = mainwindow.Wrapper()
 
     w.logger = logging.getLogger(__name__)
-    w.logger.setLevel(logging.DEBUG) # You can change it
+    w.logger.setLevel(logging.DEBUG)  # You can change it
 
     # if you do not want to logging
     # Please uncomment the next line and comment addHandler
@@ -85,8 +95,9 @@ if __name__=="__main__":
 
     chandler = CallHandler()
     shandler = logging.StreamHandler(sys.stdout)
-    logging.NullHandler
-    formatter = logging.Formatter('[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s')
+
+    formatter = logging.Formatter(
+        '[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s')
     chandler.setFormatter(formatter)
     shandler.setFormatter(formatter)
 
@@ -95,9 +106,9 @@ if __name__=="__main__":
 
     w.logger.info('Log start')
 
-
     translator = QtCore.QTranslator()
-    translator.load(QtCore.QLocale(), "untitled", ".", ":/lang", ".qt.qm") # Auto load translate file
+    translator.load(QtCore.QLocale(), "untitled", ".", ":/lang",
+                    ".qt.qm")  # Auto load translate file
     app.installTranslator(translator)
     w.retranslateUi(w)
     w.logger.info('Start UI')
@@ -105,4 +116,3 @@ if __name__=="__main__":
     w.syncall()
     w.show()
     sys.exit(app.exec_())
-
