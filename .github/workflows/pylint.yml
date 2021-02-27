@@ -30,3 +30,34 @@ jobs:
       run: |
         for /r %%i in (*.py) do pylint --fail-under=1 "%%i"
       shell: cmd
+  coverage:
+
+      runs-on: windows-latest
+
+      steps:
+      - uses: actions/checkout@v2
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+          pip install pyqt5-tools qt5-tools qt5-applications pyqt5-plugins pyqt5
+
+      - name: Build
+        run: |
+          python -c "print(__import__('os').path.join(__import__('site').getsitepackages()[1],'qt5_applications\\Qt\\bin\\lrelease.exe'))" > lreleasepath
+          set /p LRELEASE= < lreleasepath
+          nmake -f nmakefile /E /D
+        shell: cmd
+
+      - name: Analysing the code with Lcov
+        uses: devmasx/coverage-check-action@v1.2.0
+        with:
+          type: lcov
+          result_path: coverage/example.lcov
+          min_coverage: 90
+          token: ${{ github.token }}
