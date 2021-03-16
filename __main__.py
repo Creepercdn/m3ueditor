@@ -107,7 +107,7 @@ if __name__ == "__main__":
     w.logger.info('Log start')
 
     translator = QtCore.QTranslator()
-    translator.load(QtCore.QLocale(), "untitled", ".", ":/lang",
+    translator.load(QtCore.QLocale(), "m3ueditor", ".", ":/lang",
                     ".qt.qm")  # Auto load translate file
     app.installTranslator(translator)
     w.retranslateUi(w)

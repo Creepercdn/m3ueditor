@@ -7,14 +7,14 @@ from PyQt5 import QtCore, QtWidgets
 
 import diagwrapper
 import m3u8wrapper
-import untitled
+import m3ueditor
 
 tr = QtCore.QCoreApplication.translate
 encoding_list = ['utf-8', 'cp1252', 'latin_1',
                  'ascii', 'gb2312', 'gbk', 'gb18030']
 
 
-class Wrapper(QtWidgets.QMainWindow, untitled.Ui_MainWindow):
+class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
     def __init__(self, parent=None):
         super(QtWidgets.QMainWindow, self).__init__(parent)
         self.setupUi(self)
@@ -84,13 +84,13 @@ class Wrapper(QtWidgets.QMainWindow, untitled.Ui_MainWindow):
             self.listWidget.removeItemWidget(i)
         self.syncall()
 
-    def change_extm3u(self):
+    def change_extm3u(self, _pos: int=0):
         self.syncall()
 
-    def setvalue(self, s=''):
+    def setvalue(self, value=''):
         self.memoryio.seek(0)
         self.memoryio.truncate()
-        self.memoryio.write(s)
+        self.memoryio.write(value)
 
     def loadfile(self, reload=False):
         fdialog = QtWidgets.QFileDialog(self)
