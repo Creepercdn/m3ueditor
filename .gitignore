@@ -6,6 +6,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
+aboutdiag.py
+m3ueditor.py
+res.py
 
 # C extensions
 *.so

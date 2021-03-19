@@ -3,7 +3,7 @@ import logging
 import os
 
 import chardet
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 
 import diagwrapper
 import m3u8wrapper
@@ -13,12 +13,15 @@ tr = QtCore.QCoreApplication.translate
 encoding_list = ['utf-8', 'cp1252', 'latin_1',
                  'ascii', 'gb2312', 'gbk', 'gb18030']
 
+def abs2rel(root=os.PathLike, path=os.PathLike) -> os.PathLike:
+    return path.replace(root,'.',1)
 
 class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
     def __init__(self, parent=None):
         super(QtWidgets.QMainWindow, self).__init__(parent)
         self.setupUi(self)
         self.comboBox.addItems(encoding_list)
+        self.lineEdit.setText(os.getcwd().replace('\\','/'))
 
     memoryio: io.StringIO = None
     fileio = ''
@@ -48,6 +51,15 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         self.msyncg()
         # self.gsyncm()
 
+    def browse_wdir(self):
+        fdialog = QtWidgets.QFileDialog(self)
+        fdialog.setFileMode(QtWidgets.QFileDialog.Directory)
+        fileNames = []
+        if fdialog.exec_():
+            fileNames = fdialog.selectedFiles()
+            self.lineEdit.setText(fileNames[0])
+        del fdialog
+
     def addfiles(self):
         fdialog = QtWidgets.QFileDialog(self)
         fdialog.setFileMode(QtWidgets.QFileDialog.ExistingFiles)
@@ -55,6 +67,8 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         fileNames = []
         if fdialog.exec_():
             fileNames = fdialog.selectedFiles()
+        if not self.checkBox_2.isChecked():
+            fileNames = [abs2rel(self.lineEdit.text(),i) for i in fileNames]
         self.listWidget.addItems(fileNames)
         self.logger.info(f'Selected {len(fileNames)} file(s)')
         self.syncall()
@@ -69,12 +83,16 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         if fileNames:
             self.logger.info('Start os.walk()')
             for root, _, files in os.walk(fileNames[0]):
+                flist = []
                 for file in files:
                     flist += os.path.join(root, file)
                     self.logger.debug(file)
+            if not self.checkBox_2.isChecked():
+                fileNames = [abs2rel(self.lineEdit.text(),i) for i in fileNames]
             self.listWidget.addItems(flist)
             self.logger.info(f'Added {len(flist)} file(s)')
         self.syncall()
+        del fdialog
 
     def rmedia(self):
         self.logger.info(
@@ -176,3 +194,24 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
     def log(self, text):
         self.plainTextEdit_log.setPlainText(
             self.plainTextEdit_log.toPlainText()+text+'\n')
+    
+    def customcontext_list(self, point: QtWidgets.QAction):
+        curItem = self.listWidget.itemAt(point)
+        if not curItem:
+            return
+        menu = QtWidgets.QMenu(self)
+        open_action = QtWidgets.QAction(tr('MainWindow','Open'), self)
+        menu.addAction(open_action)
+        open_action.triggered.connect(self.open_slot)
+        menu.exec(QtGui.QCursor.pos())
+        del menu
+        del open_action
+
+    def open_slot(self):
+        curItem = self.listWidget.currentItem()
+        if not curItem:
+            return
+        filename = curItem.text()
+        if not self.checkBox_2.isChecked():
+            filename = filename.replace('.',self.lineEdit.text(),1)
+        os.startfile(filename)
