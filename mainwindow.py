@@ -8,13 +8,20 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 import diagwrapper
 import m3u8wrapper
 import m3ueditor
+import pgdialog
 
-tr = QtCore.QCoreApplication.translate
 encoding_list = ['utf-8', 'cp1252', 'latin_1',
                  'ascii', 'gb2312', 'gbk', 'gb18030']
 
-def abs2rel(root=os.PathLike, path=os.PathLike) -> os.PathLike:
+def abs2rel(root: os.PathLike, path: os.PathLike) -> os.PathLike:
     return path.replace(root,'.',1)
+
+def rel2abs(root: os.PathLike, path: os.PathLike):
+    return path.replace('\\','/').replace('./',root,1)
+
+def iterlwidget(widget: QtWidgets.QListWidget):
+    for i in range(widget.count()):
+        yield widget.item(i),i
 
 class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -22,6 +29,7 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         self.setupUi(self)
         self.comboBox.addItems(encoding_list)
         self.lineEdit.setText(os.getcwd().replace('\\','/'))
+        self.menuui_mbar_window.addActions([self.dockWidget_2.toggleViewAction(),self.dockWidget_3.toggleViewAction(),self.dockWidget_5.toggleViewAction(),self.dockWidget_6.toggleViewAction()])
 
     memoryio: io.StringIO = None
     fileio = ''
@@ -30,7 +38,7 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
     def msyncg(self):  # memoryio -> gui
         self.plainTextEdit_source.setPlainText(self.memoryio.getvalue())
         self.setWindowTitle(
-            tr('MainWindow', 'M3U Editor - {0}').format(self.fileio if self.fileio else 'Untitled'))
+            self.tr('M3U Editor - {0}').format(self.fileio if self.fileio else 'Untitled'))
 
         m3u8 = m3u8wrapper.loads(self.memoryio.getvalue())
         self.listWidget.clear()
@@ -47,6 +55,7 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         self.setvalue(m3u8wrapper.M3U8(em3u, fl).dumps())
 
     def syncall(self):
+        self.setnumber(self.listWidget.count())
         self.gsyncm()
         self.msyncg()
         # self.gsyncm()
@@ -114,7 +123,7 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         fdialog = QtWidgets.QFileDialog(self)
         fdialog.setFileMode(QtWidgets.QFileDialog.ExistingFile)
         fdialog.setNameFilter(
-            tr("MainWindow", "M3U (*.m3u *.m3u8);;All Files (*)"))
+            self.tr("M3U (*.m3u *.m3u8);;All Files (*)"))
         fileNames = []
         if fdialog.exec_() and not reload:
             fileNames = fdialog.selectedFiles()
@@ -200,9 +209,12 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         if not curItem:
             return
         menu = QtWidgets.QMenu(self)
-        open_action = QtWidgets.QAction(tr('MainWindow','Open'), self)
+        open_action = QtWidgets.QAction(self.tr('Open'), self)
+        del_action = QtWidgets.QAction(self.tr('Delete'),self)
         menu.addAction(open_action)
+        menu.addAction(del_action)
         open_action.triggered.connect(self.open_slot)
+        del_action.triggered.connect(self.rmedia)
         menu.exec(QtGui.QCursor.pos())
         del menu
         del open_action
@@ -215,3 +227,41 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         if not self.checkBox_2.isChecked():
             filename = filename.replace('.',self.lineEdit.text(),1)
         os.startfile(filename)
+
+    def verify(self):
+        if not self.listWidget.count():
+            self.logger.warning("Playlist is empty. Add some things before check playlist.")
+            return
+        
+        pgd = QtWidgets.QProgressDialog('Verifying playlist...', self.tr('Cancel'), 0, self.listWidget.count(),self)
+        pgd.setAutoClose(False)
+        pgd.setAutoReset(False)
+        pgd.setMinimumDuration(2000)
+        pgd.open(lambda : None)
+
+        for i,index in iterlwidget(self.listWidget):
+            pgd.setValue(index+1)
+            path = i.text()
+            if not self.checkBox_2.isChecked():
+                path = rel2abs(self.lineEdit.text(), path)
+            if not os.path.exists(i.text()):
+                msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, self.tr("Check Failed"), self.tr("Check Failed on file {0}: File not found").format(path), [QtWidgets.QMessageBox.Close],self)
+                msgbox.exec()
+                del msgbox
+                break
+        else:
+            msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Information, self.tr("Check Completed"), self.tr("Check Completed"), QtWidgets.QMessageBox.Close,self)
+            msgbox.exec()
+            del msgbox
+        pgd.close()
+        del pgd
+
+    def play(self):
+        if not self.listWidget.count():
+            return
+
+    def setnumber(self,n:int=0):
+        n = int(n)
+        digits = len(str(n))
+        self.lcdNumber.setDigitCount(digits)
+        self.lcdNumber.display(n)

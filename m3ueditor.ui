@@ -6,196 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1066</width>
-    <height>707</height>
+    <width>958</width>
+    <height>724</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,1">
-    <item row="2" column="1">
-     <widget class="QGroupBox" name="groupBox_5">
-      <property name="title">
-       <string>ui.log</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit_log">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="1" rowspan="2">
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="title">
-       <string>ui.sourcetext</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit_source">
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAsNeeded</enum>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QGroupBox" name="groupBox_3">
-      <property name="title">
-       <string>ui.file</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Now cwd dir</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>ui.file.coding</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="lineEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QCheckBox" name="checkBox">
-         <property name="text">
-          <string>ui,file.extm3u</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="checkBox_2">
-         <property name="text">
-          <string>Use absoutle path</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Browse</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QComboBox" name="comboBox">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="0" rowspan="2">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>ui.playlist</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="2" column="0">
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string>ui.playlist.add.file</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>ui.playlist.add.folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QPushButton" name="pushButton_4">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>ui.playlist.remove</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" rowspan="2" colspan="3">
-        <widget class="QListWidget" name="listWidget">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
-         </property>
-         <property name="dragEnabled">
-          <bool>true</bool>
-         </property>
-         <property name="dragDropMode">
-          <enum>QAbstractItemView::DragDrop</enum>
-         </property>
-         <property name="defaultDropAction">
-          <enum>Qt::MoveAction</enum>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::ExtendedSelection</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+  <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1066</width>
+     <width>958</width>
      <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuaa">
     <property name="title">
-     <string>ui.mbar.file</string>
+     <string>ui.mbar.file(&amp;F)</string>
     </property>
     <addaction name="actionui_mbar_file_new"/>
     <addaction name="actionui_mbar_file_open"/>
     <addaction name="actionui_mbar_file_reload"/>
+    <addaction name="actionui_mbar_file_play"/>
     <addaction name="separator"/>
     <addaction name="actionui_mbar_file_save"/>
     <addaction name="actionui_mbar_file_saveto"/>
@@ -204,47 +39,302 @@
    </widget>
    <widget class="QMenu" name="menuui_mbar_help">
     <property name="title">
-     <string>ui.mbar.help</string>
+     <string>ui.mbar.help(&amp;H)</string>
     </property>
     <addaction name="actionui_mbar_help_about"/>
    </widget>
+   <widget class="QMenu" name="menuui_mbar_window">
+    <property name="title">
+     <string>ui.mbar.view(&amp;V)</string>
+    </property>
+   </widget>
    <addaction name="menuaa"/>
+   <addaction name="menuui_mbar_window"/>
    <addaction name="menuui_mbar_help"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QDockWidget" name="dockWidget_2">
+   <property name="features">
+    <set>QDockWidget::AllDockWidgetFeatures</set>
+   </property>
+   <property name="windowTitle">
+    <string>ui.file</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>4</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0" colspan="2">
+      <widget class="QCheckBox" name="checkBox">
+       <property name="text">
+        <string>ui,file.extm3u</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>ui.file.coding(&amp;C)</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QComboBox" name="comboBox">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QCheckBox" name="checkBox_2">
+       <property name="text">
+        <string>Use absoutle path</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Now cwd dir(&amp;N)</string>
+       </property>
+       <property name="buddy">
+        <cstring>lineEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Browse</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget_3">
+   <property name="features">
+    <set>QDockWidget::AllDockWidgetFeatures</set>
+   </property>
+   <property name="windowTitle">
+    <string>ui.playlist</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>ui.playlist.count</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLCDNumber" name="lcdNumber">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="digitCount">
+        <number>1</number>
+       </property>
+       <property name="mode">
+        <enum>QLCDNumber::Dec</enum>
+       </property>
+       <property name="segmentStyle">
+        <enum>QLCDNumber::Flat</enum>
+       </property>
+       <property name="intValue" stdset="0">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="3">
+      <widget class="QListWidget" name="listWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragDrop</enum>
+       </property>
+       <property name="defaultDropAction">
+        <enum>Qt::MoveAction</enum>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>ui.playlist.add.file</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="text">
+        <string>ui.playlist.add.folder</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QPushButton" name="pushButton_4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>ui.playlist.remove</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="3">
+      <widget class="QPushButton" name="pushButton_5">
+       <property name="text">
+        <string>Verify Playlist</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget_5">
+   <property name="windowTitle">
+    <string>ui.sourcetext</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_5">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QPlainTextEdit" name="plainTextEdit_source">
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAsNeeded</enum>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget_6">
+   <property name="windowTitle">
+    <string>ui.log</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_6">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QPlainTextEdit" name="plainTextEdit_log">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="actionui_mbar_file_open">
    <property name="text">
-    <string>ui.mbar.file.open</string>
+    <string>ui.mbar.file.open(&amp;O)</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+O</string>
    </property>
   </action>
   <action name="actionui_mbar_file_new">
    <property name="text">
-    <string>ui.mbar.file.new</string>
+    <string>ui.mbar.file.new(&amp;N)</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+N</string>
    </property>
   </action>
   <action name="actionui_mbar_file_quit">
    <property name="text">
-    <string>ui.mbar.file.quit</string>
+    <string>ui.mbar.file.quit(&amp;Q)</string>
    </property>
   </action>
   <action name="actionui_mbar_file_save">
    <property name="text">
-    <string>ui.mbar.file.save</string>
+    <string>ui.mbar.file.save(&amp;S)</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+S</string>
    </property>
   </action>
   <action name="actionui_mbar_file_saveto">
    <property name="text">
-    <string>ui.mbar.file.saveto</string>
+    <string>ui.mbar.file.saveto(&amp;A)</string>
    </property>
   </action>
   <action name="actionui_mbar_help_about">
    <property name="text">
     <string>ui.mbar.help.about</string>
    </property>
+   <property name="shortcut">
+    <string notr="true">F1</string>
+   </property>
   </action>
   <action name="actionui_mbar_file_reload">
    <property name="text">
-    <string>ui.mbar.file.reload</string>
+    <string>ui.mbar.file.reload(&amp;R)</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_file_play">
+   <property name="text">
+    <string>ui.mbar.file.play(&amp;P)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>
@@ -262,70 +352,6 @@
     </hint>
     <hint type="destinationlabel">
      <x>427</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>addfiles()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>82</x>
-     <y>676</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>534</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_2</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>addfolder()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>222</x>
-     <y>676</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>534</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_4</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>rmedia()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>532</x>
-     <y>676</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>534</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox</sender>
-   <signal>stateChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>change_extm3u(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>381</x>
-     <y>61</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>534</x>
      <y>353</y>
     </hint>
    </hints>
@@ -427,34 +453,114 @@
    </hints>
   </connection>
   <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>verify()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>146</x>
+     <y>481</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>314</x>
+     <y>-14</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>addfiles()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>96</x>
+     <y>448</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>103</x>
+     <y>-12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>addfolder()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>452</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>218</x>
+     <y>-21</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rmedia()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>371</x>
+     <y>449</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>-38</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>pushButton_3</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>browse_wdir()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>482</x>
-     <y>135</y>
+     <x>912</x>
+     <y>141</y>
     </hint>
     <hint type="destinationlabel">
-     <x>532</x>
-     <y>353</y>
+     <x>531</x>
+     <y>-20</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>listWidget</sender>
-   <signal>customContextMenuRequested(QPoint)</signal>
+   <sender>checkBox</sender>
+   <signal>stateChanged(int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>customcontext_list(QPoint)</slot>
+   <slot>change_extm3u(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>269</x>
-     <y>410</y>
+     <x>41</x>
+     <y>60</y>
     </hint>
     <hint type="destinationlabel">
-     <x>532</x>
-     <y>353</y>
+     <x>76</x>
+     <y>-5</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionui_mbar_file_play</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>play()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>478</x>
+     <y>361</y>
     </hint>
    </hints>
   </connection>
@@ -463,16 +569,16 @@
   <slot>loadfile()</slot>
   <slot>addfiles()</slot>
   <slot>addfolder()</slot>
-  <slot>importpl()</slot>
   <slot>rmedia()</slot>
   <slot>change_extm3u(int)</slot>
   <slot>save()</slot>
   <slot>saveto()</slot>
-  <slot>change_version(int)</slot>
   <slot>new()</slot>
   <slot>openabout()</slot>
   <slot>reloadfile()</slot>
   <slot>browse_wdir()</slot>
   <slot>customcontext_list(QPoint)</slot>
+  <slot>verify()</slot>
+  <slot>play()</slot>
  </slots>
 </ui>
