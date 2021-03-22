@@ -76,7 +76,7 @@ class CallHandler(logging.Handler):
         try:
             msg = self.format(record)
             w.log(msg)
-            w.statusBar.showMessage(msg, -1)
+            w.statusBar.showMessage(msg, 0)
         except Exception:
             self.handleError(record)
 
@@ -85,6 +85,8 @@ if __name__ == "__main__":
     print('Starting...')
     app = QtWidgets.QApplication(sys.argv)
     w = mainwindow.Wrapper()
+
+    w.qapp = app
 
     w.logger = logging.getLogger(__name__)
     w.logger.setLevel(logging.DEBUG)  # You can change it
@@ -105,7 +107,6 @@ if __name__ == "__main__":
     w.logger.addHandler(shandler)
 
     w.logger.info('Log start')
-
     translator = QtCore.QTranslator()
     translator.load(QtCore.QLocale(), "m3ueditor", ".", ":/lang",
                     ".qt.qm")  # Auto load translate file

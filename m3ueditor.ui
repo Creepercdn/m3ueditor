@@ -27,10 +27,18 @@
     <property name="title">
      <string>ui.mbar.file(&amp;F)</string>
     </property>
+    <widget class="QMenu" name="menuui_mbar_file_openwith">
+     <property name="title">
+      <string>ui.mbar,file.openwith(&amp;M)</string>
+     </property>
+     <addaction name="actionui_mbar_file_play"/>
+     <addaction name="actionui_mbar_file_extplay"/>
+     <addaction name="actionui_mbar_file_explorer_dir_D"/>
+    </widget>
     <addaction name="actionui_mbar_file_new"/>
     <addaction name="actionui_mbar_file_open"/>
     <addaction name="actionui_mbar_file_reload"/>
-    <addaction name="actionui_mbar_file_play"/>
+    <addaction name="menuui_mbar_file_openwith"/>
     <addaction name="separator"/>
     <addaction name="actionui_mbar_file_save"/>
     <addaction name="actionui_mbar_file_saveto"/>
@@ -47,6 +55,8 @@
     <property name="title">
      <string>ui.mbar.view(&amp;V)</string>
     </property>
+    <addaction name="actionDark_Mode"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="menuaa"/>
    <addaction name="menuui_mbar_window"/>
@@ -144,20 +154,7 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_3">
     <layout class="QGridLayout" name="gridLayout_3">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>ui.playlist.count</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
+     <item row="0" column="3">
       <widget class="QLCDNumber" name="lcdNumber">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
@@ -179,7 +176,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0" colspan="3">
+     <item row="1" column="0" colspan="4">
       <widget class="QListWidget" name="listWidget">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -204,21 +201,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>ui.playlist.add.file</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>ui.playlist.add.folder</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
+     <item row="2" column="3">
       <widget class="QPushButton" name="pushButton_4">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -231,10 +214,44 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="3">
+     <item row="3" column="0" colspan="4">
       <widget class="QPushButton" name="pushButton_5">
        <property name="text">
         <string>Verify Playlist</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>ui.playlist.count</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>ui.playlist.add.file</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="text">
+        <string>ui.playlist.add.folder</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="pushButton_6">
+       <property name="text">
+        <string>ui.playlist,add.url</string>
        </property>
       </widget>
      </item>
@@ -334,7 +351,31 @@
     <string>ui.mbar.file.play(&amp;P)</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+P</string>
+    <string notr="true">Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_file_extplay">
+   <property name="text">
+    <string>ui.mbar.file.extplay(&amp;E)</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Shift+P</string>
+   </property>
+  </action>
+  <action name="actionui_mbar_file_explorer_dir_D">
+   <property name="text">
+    <string>ui.mbar.file.explore_dir(&amp;D)</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+Alt+P</string>
+   </property>
+  </action>
+  <action name="actionDark_Mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dark Mode</string>
    </property>
   </action>
  </widget>
@@ -460,7 +501,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>146</x>
-     <y>481</y>
+     <y>692</y>
     </hint>
     <hint type="destinationlabel">
      <x>314</x>
@@ -476,7 +517,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>96</x>
-     <y>448</y>
+     <y>663</y>
     </hint>
     <hint type="destinationlabel">
      <x>103</x>
@@ -491,8 +532,8 @@
    <slot>addfolder()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>224</x>
-     <y>452</y>
+     <x>410</x>
+     <y>663</y>
     </hint>
     <hint type="destinationlabel">
      <x>218</x>
@@ -507,8 +548,8 @@
    <slot>rmedia()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>371</x>
-     <y>449</y>
+     <x>532</x>
+     <y>663</y>
     </hint>
     <hint type="destinationlabel">
      <x>353</x>
@@ -564,6 +605,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>addurl()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>220</x>
+     <y>642</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>331</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionui_mbar_file_extplay</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>startfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>478</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionui_mbar_file_explorer_dir_D</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>startdir()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>478</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDark_Mode</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setstyle(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>478</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadfile()</slot>
@@ -580,5 +685,9 @@
   <slot>customcontext_list(QPoint)</slot>
   <slot>verify()</slot>
   <slot>play()</slot>
+  <slot>addurl()</slot>
+  <slot>startfile()</slot>
+  <slot>setstyle(bool)</slot>
+  <slot>startdir()</slot>
  </slots>
 </ui>

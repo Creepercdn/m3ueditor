@@ -3,39 +3,102 @@ import logging
 import os
 
 import chardet
-from PyQt5 import QtCore, QtWidgets, QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui, uic
 
-import diagwrapper
 import m3u8wrapper
-import m3ueditor
-import pgdialog
+import subprocess
+import res
+import qdarkstyle
+
+res.qInitResources()
 
 encoding_list = ['utf-8', 'cp1252', 'latin_1',
                  'ascii', 'gb2312', 'gbk', 'gb18030']
 
+
 def abs2rel(root: os.PathLike, path: os.PathLike) -> os.PathLike:
-    return path.replace(root,'.',1)
+    return path.replace(root, '.', 1)
+
 
 def rel2abs(root: os.PathLike, path: os.PathLike):
-    return path.replace('\\','/').replace('./',root,1)
+    return path.replace('\\', '/').replace('./', root, 1)
+
 
 def iterlwidget(widget: QtWidgets.QListWidget):
     for i in range(widget.count()):
-        yield widget.item(i),i
+        yield widget.item(i), i
 
-class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
+# ---------------- aboutdiag ---------------------
+
+
+class aboutdiag(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super(QtWidgets.QDialog, self).__init__(parent)
+        fileobj = QtCore.QFile(':/ui/aboutdiag.ui')
+        fileobj.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)
+        self.ui = uic.loadUi(fileobj, self)
+# END
+
+
+class playThread(QtCore.QThread):
+    update = QtCore.pyqtSignal(int)
+
+    def __init__(self, parent=None, playlist: list = None):
+        super().__init__()
+        self.playlist = playlist
+        self.stopflag = False
+        self.parent = parent
+        self.process: subprocess.Popen = None
+
+    def stop(self):
+        self.parent.logger.info('Stoping Player Thread (Force Quit)')
+        self.stopflag = True
+        self.process.terminate()
+        self.terminate()
+
+    def run(self):
+        index = 0
+        for i in self.playlist:
+            if self.stopflag:
+                break
+            self.update.emit(index+1)
+            self.process = subprocess.Popen(
+                [os.path.abspath("./ffplay/ffplay.exe"), "-showmode", "0", "-autoexit", i])
+            self.process.wait()
+            index += 1
+        self.update.emit(0)
+        # self.sleep(1)
+        self.parent.logger.info('Exiting Player Thread (Done play)')
+
+
+wmainfileobj = QtCore.QFile(':/ui/m3ueditor.ui')
+wmainfileobj.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)
+uimain, mainbaseclass = uic.loadUiType(wmainfileobj)
+wmainfileobj.close()
+
+
+class Wrapper(mainbaseclass, uimain):
     def __init__(self, parent=None):
         super(QtWidgets.QMainWindow, self).__init__(parent)
+        # a = uic.loadUi(fileobj, self)
         self.setupUi(self)
+
         self.comboBox.addItems(encoding_list)
-        self.lineEdit.setText(os.getcwd().replace('\\','/'))
-        self.menuui_mbar_window.addActions([self.dockWidget_2.toggleViewAction(),self.dockWidget_3.toggleViewAction(),self.dockWidget_5.toggleViewAction(),self.dockWidget_6.toggleViewAction()])
+        self.lineEdit.setText(os.getcwd().replace('\\', '/'))
+        self.menuui_mbar_window.addActions([self.dockWidget_2.toggleViewAction(), self.dockWidget_3.toggleViewAction(
+        ), self.dockWidget_5.toggleViewAction(), self.dockWidget_6.toggleViewAction()])
+        self.bar = QtWidgets.QProgressBar()
+        self.bar.setFormat("%v/%m (%p%)")
+        self.bar.setValue(0)
+        self.bar.setRange(0, 100)
 
     memoryio: io.StringIO = None
     fileio = ''
     logger: logging.Logger = None  # You must set this in main function
+    qapp: QtWidgets.QApplication = None
 
     def msyncg(self):  # memoryio -> gui
+        self.logger.debug('Syncing memoryio -> GUI')
         self.plainTextEdit_source.setPlainText(self.memoryio.getvalue())
         self.setWindowTitle(
             self.tr('M3U Editor - {0}').format(self.fileio if self.fileio else 'Untitled'))
@@ -46,8 +109,10 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         self.checkBox.setChecked(m3u8.extm3u)
 
         self.plainTextEdit_source.setPlainText(self.memoryio.getvalue())
+        self.setnumber(self.listWidget.count())
 
     def gsyncm(self):  # gui -> memory
+        self.logger.debug('Syncing GUI -> memoryio')
         em3u = self.checkBox.isChecked()
         fl = []
         for i in range(self.listWidget.count()):
@@ -55,12 +120,13 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         self.setvalue(m3u8wrapper.M3U8(em3u, fl).dumps())
 
     def syncall(self):
-        self.setnumber(self.listWidget.count())
+        self.logger.debug('Syncing all')
         self.gsyncm()
         self.msyncg()
         # self.gsyncm()
 
     def browse_wdir(self):
+        self.logger.debug('Start working dir browser window')
         fdialog = QtWidgets.QFileDialog(self)
         fdialog.setFileMode(QtWidgets.QFileDialog.Directory)
         fileNames = []
@@ -70,6 +136,7 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         del fdialog
 
     def addfiles(self):
+        self.logger.debug('Start add files browser window')
         fdialog = QtWidgets.QFileDialog(self)
         fdialog.setFileMode(QtWidgets.QFileDialog.ExistingFiles)
         # fdialog.setNameFilter(self.tr("M3U (*.m3u *.m3u8)"))
@@ -77,12 +144,13 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
         if fdialog.exec_():
             fileNames = fdialog.selectedFiles()
         if not self.checkBox_2.isChecked():
-            fileNames = [abs2rel(self.lineEdit.text(),i) for i in fileNames]
+            fileNames = [abs2rel(self.lineEdit.text(), i) for i in fileNames]
         self.listWidget.addItems(fileNames)
         self.logger.info(f'Selected {len(fileNames)} file(s)')
         self.syncall()
 
     def addfolder(self):
+        self.logger.debug('Start add folder browser window')
         flist = []
         fdialog = QtWidgets.QFileDialog(self)
         fdialog.setFileMode(QtWidgets.QFileDialog.Directory)
@@ -97,7 +165,8 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
                     flist += os.path.join(root, file)
                     self.logger.debug(file)
             if not self.checkBox_2.isChecked():
-                fileNames = [abs2rel(self.lineEdit.text(),i) for i in fileNames]
+                fileNames = [abs2rel(self.lineEdit.text(), i)
+                             for i in fileNames]
             self.listWidget.addItems(flist)
             self.logger.info(f'Added {len(flist)} file(s)')
         self.syncall()
@@ -111,27 +180,31 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
             self.listWidget.removeItemWidget(i)
         self.syncall()
 
-    def change_extm3u(self, _pos: int=0):
+    def change_extm3u(self, _pos: int = 0):
         self.syncall()
 
     def setvalue(self, value=''):
+        self.logger.debug('Changing memoryio content')
         self.memoryio.seek(0)
         self.memoryio.truncate()
         self.memoryio.write(value)
 
     def loadfile(self, reload=False):
+        self.logger.debug('Calling Loading file function')
         fdialog = QtWidgets.QFileDialog(self)
         fdialog.setFileMode(QtWidgets.QFileDialog.ExistingFile)
         fdialog.setNameFilter(
             self.tr("M3U (*.m3u *.m3u8);;All Files (*)"))
         fileNames = []
-        if fdialog.exec_() and not reload:
-            fileNames = fdialog.selectedFiles()
-            if fileNames:
-                self.logger.info('Loading file')
-                self.fileio = fileNames[0]
+        if not self.fileio:
+            fdialog.exec_()
+        fileNames = fdialog.selectedFiles()
+        if fileNames:
+            self.logger.info('Loading file')
+            self.fileio = fileNames[0]
 
         if fileNames or reload:
+            self.logger.debug('Loading file {0}'.format(self.fileio))
             try:
                 f = open(self.fileio, 'rb')
                 c = f.read()
@@ -197,20 +270,20 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
 
     def openabout(self):
         self.logger.info('Opening About window')
-        dlg = diagwrapper.Wrapper(self)
+        dlg = aboutdiag(self)
         dlg.exec_()
 
     def log(self, text):
         self.plainTextEdit_log.setPlainText(
             self.plainTextEdit_log.toPlainText()+text+'\n')
-    
+
     def customcontext_list(self, point: QtWidgets.QAction):
         curItem = self.listWidget.itemAt(point)
         if not curItem:
             return
         menu = QtWidgets.QMenu(self)
         open_action = QtWidgets.QAction(self.tr('Open'), self)
-        del_action = QtWidgets.QAction(self.tr('Delete'),self)
+        del_action = QtWidgets.QAction(self.tr('Delete'), self)
         menu.addAction(open_action)
         menu.addAction(del_action)
         open_action.triggered.connect(self.open_slot)
@@ -225,32 +298,42 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
             return
         filename = curItem.text()
         if not self.checkBox_2.isChecked():
-            filename = filename.replace('.',self.lineEdit.text(),1)
+            filename = filename.replace('.', self.lineEdit.text(), 1)
         os.startfile(filename)
 
     def verify(self):
         if not self.listWidget.count():
-            self.logger.warning("Playlist is empty. Add some things before check playlist.")
+            self.logger.warning(
+                "Playlist is empty. Add some things before check playlist.")
             return
-        
-        pgd = QtWidgets.QProgressDialog('Verifying playlist...', self.tr('Cancel'), 0, self.listWidget.count(),self)
+
+        self.logger.info('Start checking...')
+
+        pgd = QtWidgets.QProgressDialog(
+            'Verifying playlist...', self.tr('Cancel'), 0, 0, self)
+        pgd.setBar(self.bar)
+        pgd.setRange(0, self.listWidget.count())
         pgd.setAutoClose(False)
         pgd.setAutoReset(False)
         pgd.setMinimumDuration(2000)
-        pgd.open(lambda : None)
+        pgd.open(lambda: None)
 
-        for i,index in iterlwidget(self.listWidget):
+        for i, index in iterlwidget(self.listWidget):
             pgd.setValue(index+1)
             path = i.text()
             if not self.checkBox_2.isChecked():
                 path = rel2abs(self.lineEdit.text(), path)
             if not os.path.exists(i.text()):
-                msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, self.tr("Check Failed"), self.tr("Check Failed on file {0}: File not found").format(path), [QtWidgets.QMessageBox.Close],self)
+                self.logger.info(
+                    'Check failed! File not found at file {0}'.format(i.text()))
+                msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, self.tr("Check Failed"), self.tr(
+                    "Check Failed on file {0}: File not found").format(path), [QtWidgets.QMessageBox.Close], self)
                 msgbox.exec()
                 del msgbox
                 break
         else:
-            msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Information, self.tr("Check Completed"), self.tr("Check Completed"), QtWidgets.QMessageBox.Close,self)
+            msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Information, self.tr(
+                "Check Completed"), self.tr("Check Completed"), QtWidgets.QMessageBox.Close, self)
             msgbox.exec()
             del msgbox
         pgd.close()
@@ -258,10 +341,73 @@ class Wrapper(QtWidgets.QMainWindow, m3ueditor.Ui_MainWindow):
 
     def play(self):
         if not self.listWidget.count():
+            self.logger.warning(
+                "Playlist is empty. Add some things before check playlist.")
             return
 
-    def setnumber(self,n:int=0):
+        try:
+            if self.player.isRunning():
+                msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Warning, self.tr("Warning"), self.tr(
+                    "Warning: Multi player will raise fatal unrecover error."), QtWidgets.QMessageBox.Close, self)
+                msgbox.exec()
+                return
+        except AttributeError:
+            pass
+
+        items = []
+        for i, _ in iterlwidget(self.listWidget):
+            path = i.text()
+            if not self.checkBox_2.isChecked():
+                path = rel2abs(self.lineEdit.text()+'/', path)
+            items.append(path)
+
+        def update(a: int = 0):
+            pgd.setValue(a)
+
+        pgd = QtWidgets.QProgressDialog(
+            'Playing playlist...', self.tr('Stop'), 0, 0)
+        pgd.setBar(self.bar)
+        pgd.setRange(0, len(items))
+        pgd.setAutoClose(False)
+        pgd.setAutoReset(False)
+        pgd.setMinimumDuration(2000)
+        self.player = playThread(self, items)
+        pgd.canceled.connect(self.player.stop)
+        self.player.update.connect(update)
+        pgd.open(lambda: None)
+
+        self.logger.info('Start Player thread')
+        self.player.start()
+
+    def setnumber(self, n: int = 0):
         n = int(n)
         digits = len(str(n))
         self.lcdNumber.setDigitCount(digits)
         self.lcdNumber.display(n)
+
+    def addurl(self):
+        self.logger.debug('Start QInputDialog')
+        dialog = QtWidgets.QInputDialog(self)
+        content, d = dialog.getText(dialog, self.tr("Add URL"), "URL:")
+        if d and content:
+            self.listWidget.addItem(content.strip())
+            self.logger.info(f'Add an URL')
+            self.syncall()
+
+    def startfile(self):
+        if self.fileio:
+            os.startfile(self.fileio)
+        else:
+            self.logger.warning('File IO not seted. Please load a file first.')
+
+    def startdir(self):
+        if self.fileio:
+            os.startfile(os.path.dirname(self.fileio))
+        else:
+            self.logger.warning('File IO not seted. Please load a file first.')
+
+    def setstyle(self, a: bool):
+        if a:
+            self.qapp.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+        else:
+            self.qapp.setStyleSheet('')

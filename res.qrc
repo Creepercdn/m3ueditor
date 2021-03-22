@@ -3,4 +3,8 @@
     <file>m3ueditor.zh_CN.qt.qm</file>
     <file>m3ueditor.en_US.qt.qm</file>
   </qresource>
+  <qresource prefix="ui">
+    <file>aboutdiag.ui</file>
+    <file>m3ueditor.ui</file>
+  </qresource>
 </RCC>
