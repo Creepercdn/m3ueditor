@@ -162,7 +162,7 @@ class Wrapper(mainbaseclass, uimain):
             for root, _, files in os.walk(fileNames[0]):
                 flist = []
                 for file in files:
-                    flist += os.path.join(root, file)
+                    flist.append(os.path.join(root, file))
                     self.logger.debug(file)
             if not self.checkBox_2.isChecked():
                 fileNames = [abs2rel(self.lineEdit.text(), i)
