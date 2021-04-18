@@ -4,7 +4,7 @@ This is an entrance
 import logging
 import sys
 
-from PyQt5 import QtCore, QtWidgets
+from PySide2 import QtCore, QtWidgets
 
 import mainwindow
 import res

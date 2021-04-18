@@ -1,14 +1,19 @@
 import io
 import logging
 import os
+import re
+import subprocess
+import urllib
+import urllib.request
+import urllib.error
 
 import chardet
-from PyQt5 import QtCore, QtWidgets, QtGui, uic
+import qdarkstyle
+from PySide2 import QtCore, QtGui, QtUiTools, QtWidgets
+from PySide2.QtUiTools import loadUiType
 
 import m3u8wrapper
-import subprocess
 import res
-import qdarkstyle
 
 res.qInitResources()
 
@@ -21,27 +26,15 @@ def abs2rel(root: os.PathLike, path: os.PathLike) -> os.PathLike:
 
 
 def rel2abs(root: os.PathLike, path: os.PathLike):
-    return path.replace('\\', '/').replace('./', root, 1)
+    return path.replace('\\', '/')+('' if (str(path).endswith('\\') or str(path).endswith('/')) else '/.').replace('./', root, 1)
 
 
 def iterlwidget(widget: QtWidgets.QListWidget):
     for i in range(widget.count()):
         yield widget.item(i), i
 
-# ---------------- aboutdiag ---------------------
-
-
-class aboutdiag(QtWidgets.QDialog):
-    def __init__(self, parent=None):
-        super(QtWidgets.QDialog, self).__init__(parent)
-        fileobj = QtCore.QFile(':/ui/aboutdiag.ui')
-        fileobj.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)
-        self.ui = uic.loadUi(fileobj, self)
-# END
-
-
 class playThread(QtCore.QThread):
-    update = QtCore.pyqtSignal(int)
+    update = QtCore.Signal(int)
 
     def __init__(self, parent=None, playlist: list = None):
         super().__init__()
@@ -71,15 +64,15 @@ class playThread(QtCore.QThread):
         self.parent.logger.info('Exiting Player Thread (Done play)')
 
 
-wmainfileobj = QtCore.QFile(':/ui/m3ueditor.ui')
-wmainfileobj.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)
-uimain, mainbaseclass = uic.loadUiType(wmainfileobj)
-wmainfileobj.close()
+# wmainfileobj = QtCore.QFile(':/ui/m3ueditor.ui')
+# wmainfileobj.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)
+uimain, mainbaseclass = loadUiType('m3ueditor.ui')
+# wmainfileobj.close()
 
 
 class Wrapper(mainbaseclass, uimain):
     def __init__(self, parent=None):
-        super(QtWidgets.QMainWindow, self).__init__(parent)
+        super().__init__(parent)
         # a = uic.loadUi(fileobj, self)
         self.setupUi(self)
 
@@ -270,8 +263,13 @@ class Wrapper(mainbaseclass, uimain):
 
     def openabout(self):
         self.logger.info('Opening About window')
-        dlg = aboutdiag(self)
-        dlg.exec_()
+        fileobj = QtCore.QFile(':/ui/aboutdiag.ui')
+        fileobj.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text)
+        loader = QtUiTools.QUiLoader()
+        diag = loader.load(fileobj, self)
+        diag.show()
+        diag.exec()
+        del diag
 
     def log(self, text):
         self.plainTextEdit_log.setPlainText(
@@ -288,7 +286,7 @@ class Wrapper(mainbaseclass, uimain):
         menu.addAction(del_action)
         open_action.triggered.connect(self.open_slot)
         del_action.triggered.connect(self.rmedia)
-        menu.exec(QtGui.QCursor.pos())
+        menu.exec_(QtGui.QCursor.pos())
         del menu
         del open_action
 
@@ -316,18 +314,32 @@ class Wrapper(mainbaseclass, uimain):
         pgd.setAutoClose(False)
         pgd.setAutoReset(False)
         pgd.setMinimumDuration(2000)
-        pgd.open(lambda: None)
+        pgd.open()
 
         for i, index in iterlwidget(self.listWidget):
             pgd.setValue(index+1)
             path = i.text()
-            if not self.checkBox_2.isChecked():
-                path = rel2abs(self.lineEdit.text(), path)
-            if not os.path.exists(i.text()):
+            failed = False
+            errormsg = ''
+            if re.match(r'^https?:/{2}\w.+$', path):
+                req = urllib.request.Request(path, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.57'})
+                try:
+                    rep = urllib.request.urlopen(req)
+                except urllib.error.URLError as e:
+                    self.logger.log(f'Failed on check URL {path}, because {str(e.reason)}')
+                    errormsg = 'Failed on check URL {0}, because %s, error type: %s' % (str(e.reason), repr(e))
+
+            else:
+                if not self.checkBox_2.isChecked():
+                    path = rel2abs(self.lineEdit.text(), path)
+                failed = not os.path.exists(path)
+                errormsg = 'Check failed! File not found at file {0}'
+            
+
+            if failed:
                 self.logger.info(
-                    'Check failed! File not found at file {0}'.format(i.text()))
-                msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, self.tr("Check Failed"), self.tr(
-                    "Check Failed on file {0}: File not found").format(path), [QtWidgets.QMessageBox.Close], self)
+                    errormsg.format(i.text()+f' ({path})'))
+                msgbox = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, self.tr("Check Failed"), errormsg.format(path), QtWidgets.QMessageBox.Close, self)
                 msgbox.exec()
                 del msgbox
                 break
@@ -374,7 +386,7 @@ class Wrapper(mainbaseclass, uimain):
         self.player = playThread(self, items)
         pgd.canceled.connect(self.player.stop)
         self.player.update.connect(update)
-        pgd.open(lambda: None)
+        pgd.open()
 
         self.logger.info('Start Player thread')
         self.player.start()
@@ -408,6 +420,6 @@ class Wrapper(mainbaseclass, uimain):
 
     def setstyle(self, a: bool):
         if a:
-            self.qapp.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+            self.qapp.setStyleSheet(qdarkstyle.load_stylesheet_pyside2())
         else:
             self.qapp.setStyleSheet('')

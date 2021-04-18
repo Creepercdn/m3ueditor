@@ -26,6 +26,8 @@ def loads(text: str):
         for i in range(len(tsl)):
             if i < starti:
                 continue
+            if tsl[i].startswith('#'):
+                continue
             flist.append(tsl[i])
         return M3U8(extm3u, flist)
     else:

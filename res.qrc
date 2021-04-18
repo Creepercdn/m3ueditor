@@ -5,6 +5,5 @@
   </qresource>
   <qresource prefix="ui">
     <file>aboutdiag.ui</file>
-    <file>m3ueditor.ui</file>
   </qresource>
 </RCC>

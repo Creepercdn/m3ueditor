@@ -5,7 +5,7 @@ python .\compilei18n.py $LRELEASE "./i18n/"
 Move-Item -Force .\i18n\m3ueditor.*.qm .\
 
 Write-Output "Build resoure file..."
-& $PYRCC -compress 12 -threshold 1 -o res.py res.qrc
+& $PYRCC --compress 9 --threshold 1 -g python -o res.py res.qrc
 
 # Write-Output "Build UI files..."
 # & $PYUIC -o m3ueditor.py m3ueditor.ui
